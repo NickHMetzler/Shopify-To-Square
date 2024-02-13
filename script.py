@@ -50,32 +50,11 @@ unique_items = set()
 # Create a list to store the data
 rows = []
 
-def convert_size(input_string):
-    # Define the mapping of sizes
-    size_mapping = {
-        'xs': 'XS',
-        'sm': 'S',
-        'lg': 'L',
-        'xl': 'XL',
-        'xxl': 'XXL'
-    }
-
-    # Replace the sizes in the input string (case-insensitive)
-    for size, replacement in size_mapping.items():
-        input_string = re.sub(f'(?i){re.escape(size)}', replacement, input_string)
-
-    print("replaced")
-    print(input_string)
-
-    return input_string
-
-
 while True:
     products_data = get_products_json(api_url + str(page_number))
     if products_data and products_data.get("products"):
         save_to_file(products_data, f'products_page_{page_number}.json')
-        #print(f"JSON data for page {page_number} saved to 'products_page_{page_number}.json'")
-
+        
         # Process data for each product on the current page
         for product in products_data['products']:
             item_name = product['title']
@@ -91,28 +70,17 @@ while True:
                     
                     if k < len(product["variants"]):
                         variant = product["variants"][k]
-                        # Get Variant and SKU based on option values
                         sku = variant["sku"]
                         j = 1
-                        #print("Variant")
-                        #print(variant)
                         while j < 3:
                             variant_option = variant[f"option{j}"]
-                            #print("\nVariant Option")
-                            #print(variant_option)
                             if product["options"] and variant_option:
                                 for option in product["options"]:
                                     if variant_option in option["values"]:
                                         if option["name"] != "Title":
-                                            #print("\nChosen Name, and Option Match")
-                                            #print(option["name"])
-                                            #print(variant_option)
                                             option_names.append(option["name"])
                                             option_values.append(variant_option)
                             j += 1
-                        #print("\nOption Names and Values")
-                        #print(option_names)
-                        #print(option_values)
                         k += 1
                         row_data = {
                             'Token': '',
