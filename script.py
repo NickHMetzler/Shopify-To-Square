@@ -85,7 +85,7 @@ while True:
                         row_data = {
                             'Token': '',
                             'Item Name': item_name.title(),
-                            'Variation Name': convert_size(variant['title'].title()) if variant and variant['title'] and variant['title'].title() != "Default Title" else "",
+                            'Variation Name': variant['title'].title() if variant and variant['title'] and variant['title'].title() != "Default Title" else "",
                             'SKU': sku,
                             'Description': product['body_html'],
                             'SEO Title': f"{item_name.title()} | {store_name}",
